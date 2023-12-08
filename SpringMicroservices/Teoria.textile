@@ -1,0 +1,289 @@
+Microservicios
+	
+	1 - Gateway
+
+		A - Dependencias
+
+			1 - Gateway
+			2 - Eureka Discovery Client
+			3 - Config Client
+
+		B - Tareas
+
+			1 - crear microservicio
+			2 - agregar configuraciones
+
+	2 - Eureka Server
+
+		A - Dependencias
+
+			1 - Eureka Server
+			2 - Config Client
+
+		B - Tareas
+
+			1 - crear microservicio
+			2 - agregar etiqueta "@EnableEurekaServer" en la clase main
+			3 - agregar configuraciones
+
+	3 - ConfigServer
+
+		A - Dependencias
+
+			1 - Config Server
+
+		B - Tareas
+
+			1 - crear microservicio
+			2 - agregar etiqueta "@EnableConfigServer" en la clase main
+			3 - agregar configuraciones
+			4 - crear directorio donde se guardaran las configuraciones de los distintos microservicios
+
+	4 - Students
+
+		A - Dependencias
+
+			1 - Spring Web
+			2 - Spring Data JPA
+			3 - MySQL driver
+			4 - Config Client
+			5 - Eureka Discovery Client
+
+		B - Tareas
+
+			1 - crear microservicio
+			2 - agregar etiqueta "@EnableDiscoveryClient" en la clase main
+			3 - agregar configuraciones
+			4 - crear app
+
+
+	5 - Courses
+
+		A - Dependencias
+
+			1 - Spring Web
+			2 - Spring Data JPA
+			3 - MySQL driver
+			4 - Config Client
+			5 - Eureka Discovery Client
+			6 - OpenFeign
+
+
+		B - Tareas
+
+			1 - crear microservicio
+			2 - agregar etiqueta "@EnableDiscoveryClient" y "@EnableFeignClients" en la clase main
+				"EnableFeignClients" Utilizada por los microservicios que necesiten comunicarse con otras apis
+
+Recordatorios
+	
+	1 - Recordar poner las etiquetas "Enable en las clases Main"
+	2 - Agregar a todas los microservicios la direccion donde se encuentran las configuraciones  
+		"config:
+    		import: optional:configserver:http://localhost:8888"
+
+Modulos teoria
+
+	Spring Cloud Gateway:
+
+		1. Definición:
+		
+		    Spring Cloud Gateway es un servidor de enrutamiento y una solución basada en Spring que proporciona una manera sencilla y efectiva de enrutar las solicitudes a los servicios de backend.
+		
+		2. Características Principales:
+		
+		    Enrutamiento Dinámico: Permite definir reglas de enrutamiento de manera dinámica.
+		    Filtrado: Puede aplicar filtros a las solicitudes y respuestas, como autenticación, registro, etc.
+		    Balanceo de Carga: Admite la distribución equitativa del tráfico entre instancias de servicios backend.
+		    Adaptabilidad: Puede adaptarse fácilmente a diferentes necesidades de enrutamiento y filtrado.
+		
+		3. Enrutamiento:
+		
+		    Spring Cloud Gateway permite definir reglas de enrutamiento que especifican cómo las solicitudes deben ser dirigidas a los servicios de backend. Esto puede basarse en diversas 		condiciones, como la ruta de la solicitud, encabezados, etc.
+		
+		4. Filtros:
+		
+		    Los filtros son componentes que se aplican a las solicitudes y respuestas para realizar operaciones específicas, como autenticación, registro, manipulación de encabezados, etc. Spring 		Cloud Gateway es altamente configurable en términos de filtros.
+		
+		5. Balanceo de Carga:
+		
+		    Cuando hay varias instancias de un servicio, Spring Cloud Gateway puede distribuir el tráfico entre estas instancias para lograr un equilibrio de carga.
+		
+		6. Configuración:
+		
+		    La configuración de Spring Cloud Gateway se puede realizar de manera centralizada o distribuida, dependiendo de las necesidades del sistema. Se puede utilizar un archivo de 		configuración o configuración basada en código.
+		
+		7. Integración con Spring Cloud:
+		
+		    Spring Cloud Gateway se integra naturalmente con otros proyectos de Spring Cloud, lo que facilita la construcción de sistemas distribuidos y microservicios.
+		
+		8. Escalabilidad:		
+		
+		    Puede escalar horizontalmente para manejar un mayor volumen de tráfico y agregar nuevas funcionalidades sin afectar el rendimiento.
+
+	Eureka Server:
+
+		1. Definición:
+
+		    Eureka Server es un componente de Spring Cloud que facilita la implementación de un servicio de registro y 		descubrimiento. Su función principal es permitir que los microservicios se registren a sí mismos y descubran a otros 		microservicios en un entorno distribuido.
+		
+		2. Características Principales:
+		
+		    Registro de Servicios: Los microservicios pueden registrarse en el servidor Eureka para que estén disponibles para 		otros servicios.
+		    Descubrimiento de Servicios: Los microservicios pueden descubrir dinámicamente la ubicación (dirección IP y puerto) 		de otros servicios registrados en el servidor Eureka.
+		    Tolerancia a Fallos: Eureka Server está diseñado para ser resistente a fallos, y los clientes (microservicios) 		pueden manejar la pérdida de conexión con el servidor de manera grácil.
+		
+		3. Cliente Eureka:
+		
+		    Además del servidor Eureka, Spring Cloud proporciona una biblioteca cliente que facilita que los microservicios se 		registren y descubran entre sí.
+		
+		4. Registro y Descubrimiento:
+		
+		    Cuando un microservicio se inicia, se registra en el servidor Eureka con su nombre y dirección. Otros microservicios pueden consultar el servidor Eureka para descubrir la ubicación de un servicio específico.
+
+		55. Panel de Control Eureka:
+
+		   Eureka Server proporciona una interfaz de usuario simple que muestra información sobre los servicios registrados, como su estado, instancias, etc. Puedes acceder a este panel de control visitando http://localhost:xxxx en tu navegador cuando el servidor Eureka está en funcionamiento.
+
+		6. Integración con Spring Cloud:
+
+		   Eureka Server se integra estrechamente con otros componentes de Spring Cloud, como el servidor de configuración y el enrutador (Gateway), para facilitar la construcción de sistemas distribuidos.
+
+	Config Server:
+
+		1. Definición:
+
+   			 El Servidor de Configuración (Config Server) es un componente de Spring Cloud que proporciona un punto centralizado para almacenar y administrar la configuración de múltiples microservicios en un entorno distribuido.
+
+		2. Características Principales:
+
+		   	Almacenamiento Centralizado: Permite almacenar la configuración en un repositorio central (como un repositorio Git) que puede ser accesible por varios microservicios.
+		  	Recuperación de Configuración: Permite que los microservicios recuperen su configuración de manera centralizada y dinámica.
+		 	Recarga Dinámica: Los microservicios pueden actualizar su configuración en tiempo de ejecución sin necesidad de reiniciar.
+		   	Integración con Spring Environment: La configuración se integra con el entorno de Spring, haciendo que las propiedades de configuración estén disponibles como propiedades de Spring en las aplicaciones.
+
+		3. Configuración Básica:
+
+   			 Para configurar un Servidor de Configuración, necesitas agregar la dependencia correspondiente a tu proyecto y proporcionar la ubicación del repositorio de configuración en tu archivo application.yml o application.properties
+
+   		4. Repositorio de Configuración:
+
+   			 El repositorio puede ser un sistema de control de versiones como Git, SVN, o incluso un sistema de archivos local. Los archivos de configuración deben estar organizados por aplicación y perfil.
+
+   		6. Refresco Dinámico:
+
+   			 Similar al Cliente de Configuración, el Servidor de Configuración también admite la recarga dinámica. Cuando se actualiza la configuración en el repositorio, los microservicios pueden recargar su configuración sin reiniciar.
+
+   		7. Seguridad:
+
+    		Puedes asegurar la comunicación entre el Cliente de Configuración y el Servidor de Configuración mediante autenticación y autorización.
+
+    	8. Uso con Eureka:
+
+    		Puedes combinar el Servidor de Configuración con Eureka para tener una configuración dinámica y un descubrimiento de servicios centralizado en tu arquitectura de microservicios.
+
+    	9. Integración con Spring Cloud Gateway:
+
+   			 El Servidor de Configuración se puede utilizar en combinación con Spring Cloud Gateway para centralizar la configuración de enrutamiento y filtrado.
+
+   	Config Client:
+
+   		1. Definición:
+
+ 		   	El Cliente de Configuración (Config Client) es un componente de Spring Cloud que permite a los microservicios recuperar su configuración de manera centralizada desde un servidor de configuración.
+
+		2. Características Principales:
+
+	  		Recuperación Centralizada de Configuración: Los microservicios pueden recuperar su configuración desde un servidor central, lo que facilita la gestión y actualización de la configuración de la aplicación.
+
+	  		Recarga Dinámica: Los clientes de configuración pueden recargar su configuración en tiempo de ejecución sin reiniciar el servicio, lo que permite cambios rápidos y dinámicos.
+
+	  		Integración con Spring Environment: La configuración recuperada se integra con el entorno de Spring, lo que permite su uso en la aplicación como propiedades de Spring.
+
+	  	3. Recuperación de Configuración:
+
+		    Después de la configuración básica, puedes recuperar propiedades específicas de la configuración centralizada en tu aplicación como si fueran propiedades locales de Spring.
+
+			    	@Value("${mi.propiedad}")
+					private String miPropiedad;
+
+			Donde mi.propiedad es la clave de la propiedad que quieres recuperar del servidor de configuración.
+
+		4. Refresco Dinámico:
+
+    		Puedes habilitar la recarga dinámica de la configuración agregando @RefreshScope a tus componentes o clases de configuración. Esto permite que los cambios en la configuración se reflejen en tiempo de ejecución sin reiniciar el servicio.
+
+		5. Integración con Eureka:
+
+		  	Puedes combinar el Cliente de Configuración con Eureka para tener una configuración dinámica y un descubrimiento de servicios centralizado en tu arquitectura de microservicios.
+
+		6. Seguridad:
+
+		   	Puedes asegurar la comunicación entre el cliente de configuración y el servidor de configuración mediante autenticación y autorización.
+
+		7. Uso con Spring Cloud Gateway:
+
+		   	El Cliente de Configuración se puede utilizar en combinación con Spring Cloud Gateway para centralizar la configuración de enrutamiento y filtrado.
+
+	Eureka Discovery Client
+
+
+
+		1. Definición:
+
+		   El Cliente de Descubrimiento de Eureka es un componente de Spring Cloud que permite a los microservicios registrarse en un servidor Eureka para que puedan ser descubiertos por otros microservicios.
+
+		2. Características Principales:
+
+		   Registro de Servicios: Permite a los microservicios registrarse en el servidor Eureka, lo que facilita la identificación y descubrimiento por parte de otros servicios.
+		   Descubrimiento de Servicios: Los microservicios pueden descubrir dinámicamente la ubicación (dirección IP y puerto) de otros servicios registrados en el servidor Eureka.
+		   Integración con Spring Environment: La información del servicio (por ejemplo, direcciones de otros servicios) se integra con el entorno de Spring, haciéndola disponible como propiedades de Spring en las aplicaciones.
+
+		3. Configuración Básica:
+
+		   Para habilitar el Cliente de Descubrimiento de Eureka, necesitas agregar la dependencia correspondiente a tu proyecto y configurar la ubicación del servidor Eureka en tu archivo application.yml o application.properties.
+
+		4.Anotación @EnableDiscoveryClient:
+
+    		En la clase principal de tu aplicación, puedes agregar la anotación @EnableDiscoveryClient para habilitar el registro y descubrimiento de servicios.
+
+    	5. Uso en el Cliente:
+
+   			 Una vez que un servicio está registrado, otros servicios pueden descubrirlo utilizando el nombre de la aplicación registrado. Puedes usar la anotación @Autowired para inyectar un objeto DiscoveryClient y obtener información sobre otros servicios.
+
+   	OpenFeign
+
+   		1. Declarativo y Anotaciones:
+
+ 		  	 OpenFeign permite a los desarrolladores escribir clientes HTTP declarativos utilizando anotaciones en interfaces. Estas interfaces definen las firmas de los métodos y las anotaciones proporcionan detalles sobre cómo se deben realizar las solicitudes HTTP.
+
+		2. Integración con Spring Cloud:
+
+  		 	 OpenFeign se integra perfectamente con Spring Cloud. Al agregar la dependencia adecuada y anotar una interfaz con @FeignClient, se habilita la funcionalidad de cliente HTTP de manera fácil y rápida.
+
+		3. Anotación @FeignClient:
+
+   			 La anotación @FeignClient se utiliza para especificar el nombre del servicio con el que se quiere comunicar. Puedes usar este nombre para realizar llamadas a métodos declarativos que se traducen en solicitudes HTTP.
+		4. Uso de Anotaciones HTTP:
+
+    		OpenFeign proporciona anotaciones específicas para diferentes métodos HTTP, como @GetMapping, @PostMapping, @PutMapping, etc. Estas anotaciones se utilizan para definir la operación que se realizará en el servicio remoto.
+
+		5. Integración con Eureka:
+
+    		OpenFeign se puede combinar con Eureka para facilitar el descubrimiento dinámico de servicios. En lugar de especificar directamente la URL del servicio, puedes usar el nombre del servicio registrado en el servidor Eureka.
+
+		6. Interceptores y Personalización:
+
+    		OpenFeign permite la personalización de los clientes mediante el uso de interceptores. Puedes agregar lógica personalizada antes o después de que se realice una solicitud HTTP.
+
+		7. Balanceo de Carga:
+
+    		Al utilizar nombres de servicio en lugar de direcciones URL directas, OpenFeign se integra con el balanceo de carga proporcionado por Ribbon (también parte de Spring Cloud).
+
+		8. Manejo de Errores:
+
+    		OpenFeign simplifica el manejo de errores al permitir el uso de excepciones para representar situaciones de error específicas. Puedes definir clases de excepción personalizadas que se lanzarán en caso de que ocurra un error durante la comunicación con el servicio remoto.
+
+		9. Uso con Spring Cloud Gateway:
+
+    		OpenFeign se puede utilizar de manera conjunta con Spring Cloud Gateway para simplificar aún más las llamadas a servicios remotos en un entorno de microservicios.
